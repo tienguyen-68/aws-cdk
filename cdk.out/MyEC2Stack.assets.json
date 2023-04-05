@@ -1,0 +1,19 @@
+{
+  "version": "30.1.0",
+  "files": {
+    "258adff206df99e919204847d6ccb845c2b61210c283c1546ecbf4b95ae31e31": {
+      "source": {
+        "path": "MyEC2Stack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "258adff206df99e919204847d6ccb845c2b61210c283c1546ecbf4b95ae31e31.json",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

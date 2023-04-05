@@ -1,0 +1,35 @@
+#!/bin/bash
+cat <<EOF >> ~/.ssh/webserver.pem
+-----BEGIN RSA PRIVATE KEY-----
+MIIEpAIBAAKCAQEA8Hm/r7AbKgSOEISN47PJbZG8zpsaWUuzpaq2SnVsu/HPU2DF
+VYQ15Lq/uvr+AzaOzuf0/qt0XELSvz/g5sxqzBWZ6WTkpqPCE8eqVpINItnqSPf8
+xJHz/8SA4FDvFJWBcXZ8BAPkfNI5NqR5P6hG4Pnkjz61pqlG3i9yYdKp3w6Gb4d4
+KRGtG/Mwy7G3EZ437YPTLCQLKQIArfP9c4Zmg+Yz/jTJXkpF9MIJFJ19Lk0Ut07o
+urmOUbkLFKC9lfZmfRv3dPOE0BscT6wqPG0QTPhqy4aSmUAeALKhYnsdRcjAlOXn
+yvKJv35jrKNeqlf9tJY+KPJ2aU1flmqyHplxsQIDAQABAoIBADYKplFNOk2PCH4d
+y+VIGhRNlCi6Iom+wXiRjLXe/bie9wC91psJQzNL5JqYnU0Ljbxh1GUHEvdI7SOd
+r2UuuzFyCUyyJ9BrLMpVLKqX1+vlHQmY8W0bf8IS3wOKLLBriNN+1Q/x7/89Hy5w
+d+8eWg9lGUA3z4rMr+husT3aoeJGadNd5afg5nVdGjdg+y72Qm8Q+I3a+i8MQBPc
++fvIFk/qV87JX4ij4MwtGuqLnMLBhsG7jQx/qbzcF0Hl2LsSNaaqt3Xx1yFxV/Nv
+N834EGOGHKQMfBYXy9/48kFshPfIrBB9krtgd0D2QaOMyA7xKcZ/512YEu01yhKk
+3DBQVyECgYEA/eZBXI6awv9SbXrd+v+ty2tE2ssO6IrgjbIlKGxXm+jOryNeT6VG
+IUeePz9qhQWHdMr/5hBxiMNhHpVBx6yeo5+fGpKVyYTp6/2pEMIVLpqo2E8YdF1w
+cXgSbeQqiZPjw+Eh22+5/H0hwHKaYzBYN+CVcz1BDOSXIIph4FDg77cCgYEA8ncP
+/2n1n1Sa7hEVmiRE8eirlCQdelN8RGX1P6uCd0/aD8BB/nwwnacyZ6qI6taezVZe
+DK0enS+vUVjnMExwFU86bVnKqZOhqO/alAi83S81SbkJ23FHpOPDELBBudw1Sz98
+y9GAQiUQh4X8izHO87jbs730JkNX+sN3Y3Fy2dcCgYA6vlpjCs99zEsK74GKgDt6
+tB/jK1YQsYkQ36W/O4ntlai0Vs+MR+X47zQK2CZSDpxvhkQ8u5M5HFNNGyV0CFlP
+7C+Im1+yl2Dz6+WA7hauiLQGEA7NZY0Ng8VnzYGWATSSbnVB6xCx/VWgzCMyTc4r
+Z3fMiOCTFhRtP/czSiMw8wKBgQC7nSN02HGl2xqS8gdMIZpzsTzqwVNJ70Wty1MM
+9FJcrh4mp/aoy0H3C4P2MUAGrxFsA9N8bYzNxjMbd/ZUKiFka8zjBmLJ+qFRjl8M
+wwIZCElshVC6S5pLXa33wNrqzRkz46lWMQLUq8dxhlzW/DCN6FGgcHB2FxAByrQb
+75IWOwKBgQDS6HzCGul9Y255lJblcu4ZOArTwQZWaQa3vGzpM+eA4HgO9xD6MIML
+eqUoo72l4c0JNNMshe4500JJjbToRV2QjUc/qCgbl4em+5UoE2RLbbRnqA2zsgPB
+pF0TDuEha4BebVGOv7iK3tBvduc5kdwq9nN788YlEwi2qGjIQdRY2A==
+-----END RSA PRIVATE KEY-----
+EOF
+chmod 600 ~/.ssh/webserver.pem
+rsync -avP tomcat@10.0.0.34:/opt/apache-tomcat-8.5.87/webapps/ /opt/apache-tomcat-8.5.87/webapps/
+chown -R tomcat:tomcat /opt/apache-tomcat-8.5.87/webapps/
+cd /opt/apache-tomcat-8.5.87/bin
+./startup.sh

@@ -1,0 +1,357 @@
+{
+ "Resources": {
+  "ec2roleFD75669B": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ec2.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AmazonSSMFullAccess"
+       ]
+      ]
+     },
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AmazonSSMManagedInstanceCore"
+       ]
+      ]
+     },
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AmazonEC2RoleforSSM"
+       ]
+      ]
+     }
+    ],
+    "RoleName": "ec2-role"
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyEC2Stack/ec2-role/Resource"
+   }
+  },
+  "MyInstanceProfile": {
+   "Type": "AWS::IAM::InstanceProfile",
+   "Properties": {
+    "Roles": [
+     {
+      "Ref": "ec2roleFD75669B"
+     }
+    ],
+    "InstanceProfileName": "SSMToEC2"
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyEC2Stack/MyInstanceProfile"
+   }
+  },
+  "webserver01": {
+   "Type": "AWS::EC2::Instance",
+   "Properties": {
+    "AvailabilityZone": "ap-northeast-1a",
+    "DisableApiTermination": false,
+    "IamInstanceProfile": "SSMToEC2",
+    "ImageId": "ami-06fdbb60c8e83aa5e",
+    "InstanceType": "t2.micro",
+    "KeyName": "webserver",
+    "PrivateIpAddress": "10.0.0.34",
+    "SecurityGroupIds": [
+     {
+      "Fn::ImportValue": "MySgStack:ExportsOutputFnGetAttwebserversgGroupId09A321C2"
+     }
+    ],
+    "SubnetId": {
+     "Fn::ImportValue": "MyVpcStack:ExportsOutputFnGetAttpublicsubnet01SubnetId7456A0EB"
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "webserver-01"
+     }
+    ],
+    "UserData": {
+     "Fn::Base64": "#!/bin/bash\nyum -y update\nyum -y install java-1.8.0-openjdk\nuseradd -s /sbin/nologin tomcat\nwget https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.87/bin/apache-tomcat-8.5.87.tar.gz\ntar -xvzf apache-tomcat-8.5.87.tar.gz\nmv apache-tomcat-8.5.87 /opt/\ncd /opt/apache-tomcat-8.5.87/conf/\nmv server.xml server.xml.backup\ncat <<EOF >> server.xml\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n<Server port=\"8005\" shutdown=\"SHUTDOWN\">\n  <Listener className=\"org.apache.catalina.startup.VersionLoggerListener\" />\n  <Listener className=\"org.apache.catalina.core.AprLifecycleListener\" SSLEngine=\"on\" />\n  <Listener className=\"org.apache.catalina.core.JreMemoryLeakPreventionListener\" />\n  <Listener className=\"org.apache.catalina.mbeans.GlobalResourcesLifecycleListener\" />\n  <Listener className=\"org.apache.catalina.core.ThreadLocalLeakPreventionListener\" />\n\n  <GlobalNamingResources>\n    <Resource name=\"UserDatabase\" auth=\"Container\"\n              type=\"org.apache.catalina.UserDatabase\"\n              description=\"User database that can be updated and saved\"\n              factory=\"org.apache.catalina.users.MemoryUserDatabaseFactory\"\n              pathname=\"conf/tomcat-users.xml\" />\n  </GlobalNamingResources>\n\n  <Service name=\"Catalina\">\n\n    <Connector port=\"80\" protocol=\"HTTP/1.1\"\n               connectionTimeout=\"20000\"\n               redirectPort=\"443\" />\n     <Connector\n           protocol=\"org.apache.coyote.http11.Http11NioProtocol\"\n           port=\"443\" maxThreads=\"200\"\n           scheme=\"https\" secure=\"true\" SSLEnabled=\"true\"\n           keystoreFile=\"/opt/apache-tomcat-8.5.87/conf/keystore\" keystorePass=\"changeit\"\n           clientAuth=\"false\" sslProtocol=\"TLS\"/>\n\n    <Engine name=\"Catalina\" defaultHost=\"localhost\">\n      <Realm className=\"org.apache.catalina.realm.LockOutRealm\">\n        <Realm className=\"org.apache.catalina.realm.UserDatabaseRealm\"\n               resourceName=\"UserDatabase\"/>\n      </Realm>\n\n      <Host name=\"localhost\"  appBase=\"webapps\"\n            unpackWARs=\"true\" autoDeploy=\"true\">\n\n        <Valve className=\"org.apache.catalina.valves.AccessLogValve\" directory=\"logs\"\n               prefix=\"localhost_access_log\" suffix=\".txt\"\n               pattern=\"%h %l %u %t &quot;%r&quot; %s %b\" />\n\n      </Host>\n    </Engine>\n  </Service>\n</Server>\nEOF\necho -e \"\\nchangeit\\nchangeit\\ntest\\ntest\\ntest\\ntest\\ntest\\ntest\\nyes\\n\" | $JAVA_HOME/bin/keytool -genkey -alias tomcat -keyalg RSA -keystore keystore\ncd ../webapps\nmkdir helloworld\ncat <<EOF >> helloworld/index.html\n<html>\n<body>\n<div style=\"width: 100%; font-size: 40px; font-weight: bold; text-align: center;\">\nTest Page\n</div>\n</body>\n</html>\nEOF\nchown -R tomcat:ec2-user /opt/apache-tomcat-8.5.87/\nfind /opt/ -type d -exec chmod 775 {} +\ncd ../bin\n./startup.sh\n\n"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyEC2Stack/webserver01"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/02LQQrCMBAA39J7stoUxHtP3kp8gKTpFtemu5CkiIT8XaEIPc0wMAYuVzg37p20nxYdaIRyz84v6pcehdwKxUpA1c/8541TduxxiDJTwKrQGzj0qiwm2aLfr4P3whNlEq5q+OSn8KmDtgXTvBKRjhtnWhHszi+EmNY0mwAAAA=="
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyEC2Stack/CDKMetadata/Default"
+   },
+   "Condition": "CDKMetadataAvailable"
+  }
+ },
+ "Conditions": {
+  "CDKMetadataAvailable": {
+   "Fn::Or": [
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "af-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-northwest-1"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "sa-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-2"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-2"
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "Outputs": {
+  "ExportsOutputRefwebserver01E1143E9A": {
+   "Value": {
+    "Ref": "webserver01"
+   },
+   "Export": {
+    "Name": "MyEC2Stack:ExportsOutputRefwebserver01E1143E9A"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

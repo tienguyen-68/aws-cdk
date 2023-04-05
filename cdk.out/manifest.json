@@ -1,0 +1,638 @@
+{
+  "version": "30.1.0",
+  "artifacts": {
+    "MyVpcStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "MyVpcStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "MyVpcStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "MyVpcStack.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/16bd926ad6604cdd7f614141b578bdf43b2955ac0af1db550e9db9d49e196cb0.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "MyVpcStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "MyVpcStack.assets"
+      ],
+      "metadata": {
+        "/MyVpcStack/MyVPC": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVPC"
+          }
+        ],
+        "/MyVpcStack/public_subnet_01": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "publicsubnet01"
+          }
+        ],
+        "/MyVpcStack/public_subnet_02": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "publicsubnet02"
+          }
+        ],
+        "/MyVpcStack/My_Internet_Gateway": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyInternetGateway"
+          }
+        ],
+        "/MyVpcStack/VPC Gateway Attachment": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCGatewayAttachment"
+          }
+        ],
+        "/MyVpcStack/My Public Route Table": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyPublicRouteTable"
+          }
+        ],
+        "/MyVpcStack/My Public Route": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyPublicRoute"
+          }
+        ],
+        "/MyVpcStack/PublicSubnet1RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PublicSubnet1RouteTableAssociation"
+          }
+        ],
+        "/MyVpcStack/PublicSubnet2RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PublicSubnet2RouteTableAssociation"
+          }
+        ],
+        "/MyVpcStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/MyVpcStack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/MyVpcStack/Exports/Output{\"Fn::GetAtt\":[\"MyVPC\",\"VpcId\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttMyVPCVpcIdF2BB1C6C"
+          }
+        ],
+        "/MyVpcStack/Exports/Output{\"Fn::GetAtt\":[\"publicsubnet01\",\"SubnetId\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttpublicsubnet01SubnetId7456A0EB"
+          }
+        ],
+        "/MyVpcStack/Exports/Output{\"Fn::GetAtt\":[\"publicsubnet02\",\"SubnetId\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttpublicsubnet02SubnetId80FC6486"
+          }
+        ],
+        "/MyVpcStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/MyVpcStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "MyVpcStack"
+    },
+    "MySgStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "MySgStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "MySgStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "MySgStack.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/49873aa9657917b25a85797e287f9122f38512d12aa73e27b9b4a6098eed53c4.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "MySgStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "MyVpcStack",
+        "MySgStack.assets"
+      ],
+      "metadata": {
+        "/MySgStack/webserver_sg": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "webserversg"
+          }
+        ],
+        "/MySgStack/outbound": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "outbound"
+          }
+        ],
+        "/MySgStack/allow-https": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "allowhttps"
+          }
+        ],
+        "/MySgStack/allow-ssh": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "allowssh"
+          }
+        ],
+        "/MySgStack/allow-http": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "allowhttp"
+          }
+        ],
+        "/MySgStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/MySgStack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/MySgStack/Exports/Output{\"Fn::GetAtt\":[\"webserversg\",\"GroupId\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttwebserversgGroupId09A321C2"
+          }
+        ],
+        "/MySgStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/MySgStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "MySgStack"
+    },
+    "MyEC2Stack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "MyEC2Stack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "MyEC2Stack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "MyEC2Stack.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/258adff206df99e919204847d6ccb845c2b61210c283c1546ecbf4b95ae31e31.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "MyEC2Stack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "MySgStack",
+        "MyVpcStack",
+        "MyEC2Stack.assets"
+      ],
+      "metadata": {
+        "/MyEC2Stack/ec2-role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ec2roleFD75669B"
+          }
+        ],
+        "/MyEC2Stack/MyInstanceProfile": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyInstanceProfile"
+          }
+        ],
+        "/MyEC2Stack/webserver01": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "webserver01"
+          }
+        ],
+        "/MyEC2Stack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/MyEC2Stack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/MyEC2Stack/Exports/Output{\"Ref\":\"webserver01\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefwebserver01E1143E9A"
+          }
+        ],
+        "/MyEC2Stack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/MyEC2Stack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "MyEC2Stack"
+    },
+    "MyAlbStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "MyAlbStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "MyAlbStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "MyAlbStack.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/84f560d8c727158f438b3aba887aad0ff25f945914da4dfc0b3b3a068092f343.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "MyAlbStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "MyEC2Stack",
+        "MyVpcStack",
+        "MySgStack",
+        "MyAlbStack.assets"
+      ],
+      "metadata": {
+        "/MyAlbStack/MyTg": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyTg"
+          }
+        ],
+        "/MyAlbStack/webserver_alb": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "webserveralb"
+          }
+        ],
+        "/MyAlbStack/MyListenerHTTPS": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyListenerHTTPS"
+          }
+        ],
+        "/MyAlbStack/ListenerRuleHttps": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ListenerRuleHttps"
+          }
+        ],
+        "/MyAlbStack/MyListenerHTTP": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyListenerHTTP"
+          }
+        ],
+        "/MyAlbStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/MyAlbStack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/MyAlbStack/Exports/Output{\"Fn::GetAtt\":[\"MyTg\",\"TargetGroupArn\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttMyTgTargetGroupArn95A35D97"
+          }
+        ],
+        "/MyAlbStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/MyAlbStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "MyAlbStack"
+    },
+    "MyAsgStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "MyAsgStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "MyAsgStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "MyAsgStack.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/a94e7d8613818d237aa2c01d5c5487d950ee079dd8231ddb6a3be25896d7ac63.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "MyAsgStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "MySgStack",
+        "MyAlbStack",
+        "MyVpcStack",
+        "MyAsgStack.assets"
+      ],
+      "metadata": {
+        "/MyAsgStack/web_server_template": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "webservertemplate"
+          }
+        ],
+        "/MyAsgStack/web_server_asg": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "webserverasg"
+          }
+        ],
+        "/MyAsgStack/MyAutoScalingPolicy": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyAutoScalingPolicy"
+          }
+        ],
+        "/MyAsgStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/MyAsgStack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/MyAsgStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/MyAsgStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "MyAsgStack"
+    },
+    "MyLambdaStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "MyLambdaStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "MyLambdaStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "MyLambdaStack.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/836c7ee2a2882126919bf12f027b1ebfbb6d212e7075713fe1a8a6901c346607.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "MyLambdaStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "MyLambdaStack.assets"
+      ],
+      "metadata": {
+        "/MyLambdaStack/lambda-bucket1/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "lambdabucket1E2470846"
+          }
+        ],
+        "/MyLambdaStack/lambda-bucket1/Notifications/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "lambdabucket1Notifications9291BA97"
+          }
+        ],
+        "/MyLambdaStack/lambda-bucket1/AllowBucketNotificationsToMyLambdaStackMyLambdaFunction1B164D4B": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "lambdabucket1AllowBucketNotificationsToMyLambdaStackMyLambdaFunction1B164D4B1DF0EBD5"
+          }
+        ],
+        "/MyLambdaStack/s3-deployment/AwsCliLayer/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "s3deploymentAwsCliLayerA86C34D1"
+          }
+        ],
+        "/MyLambdaStack/s3-deployment/CustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "s3deploymentCustomResourceA53D6366"
+          }
+        ],
+        "/MyLambdaStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265"
+          }
+        ],
+        "/MyLambdaStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF"
+          }
+        ],
+        "/MyLambdaStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536"
+          }
+        ],
+        "/MyLambdaStack/role-lambda-python/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rolelambdapythonF573907E"
+          }
+        ],
+        "/MyLambdaStack/MyLambdaFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyLambdaFunction67CCA873"
+          }
+        ],
+        "/MyLambdaStack/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleB6FB88EC"
+          }
+        ],
+        "/MyLambdaStack/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleDefaultPolicy2CF63D36"
+          }
+        ],
+        "/MyLambdaStack/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BucketNotificationsHandler050a0587b7544547bf325f094a3db8347ECC3691"
+          }
+        ],
+        "/MyLambdaStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/MyLambdaStack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/MyLambdaStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/MyLambdaStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "MyLambdaStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}

@@ -1,0 +1,325 @@
+{
+ "Resources": {
+  "webservertemplate": {
+   "Type": "AWS::EC2::LaunchTemplate",
+   "Properties": {
+    "LaunchTemplateData": {
+     "DisableApiTermination": false,
+     "ImageId": "ami-06fdbb60c8e83aa5e",
+     "InstanceType": "t2.micro",
+     "KeyName": "webserver",
+     "SecurityGroupIds": [
+      {
+       "Fn::ImportValue": "MySgStack:ExportsOutputFnGetAttwebserversgGroupId09A321C2"
+      }
+     ],
+     "UserData": {
+      "Fn::Base64": "#!/bin/bash\nyum -y update\nyum -y install java-1.8.0-openjdk\nuseradd tomcat\nwget https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.87/bin/apache-tomcat-8.5.87.tar.gz\ntar -xvzf apache-tomcat-8.5.87.tar.gz\nmv apache-tomcat-8.5.87 /opt/\ncd /opt/apache-tomcat-8.5.87/conf/\nmv server.xml server.xml.backup\nmkdir /home/tomcat/.ssh/\nchmod 700 /home/tomcat/.ssh/\ncat <<EOF >> /home/tomcat/.ssh/webserver.pem\n-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEAlyauZBS4T/eYLcgn+ajrq4+e4DyP4veRJClQZnDZy+HwEwkh\ndRZkaNrktPgWpGarwR5yKP4RRXVK2vCk/+yFR5j8sLvW9PqJQUib1mhGKH+rXvd3\nDYz6J4YEIzsx68Yoas8BD81/Vn+ssxMa7thlI9vcz19MRA0S3wtiiKagUk0YkhA8\n1b1jcFblUadgbR4+m94Vzy5IJ3Smq8SNxIjgwd/TNvtnegiNyy+JMYcipJHc4kdz\nnee4gJfCN2MpjbgA1xtZHfnO9IQSogvOh7ZhNycqVuQaDTvBCnbOasn+FcGvO4YY\nwLtKXD//Z+9p24UTyzNK4I5Ev7R1drKyOEA1gQIDAQABAoIBABewQT6AHM6zkA8E\nwncXKTAvBwg/lZFNmVqgevBDGW8hjr18/dha1Qu12ogeJXZIfPx8KAoSn2RSWJPt\niP5u9AhfiqKsHakxJperqHi2yOAJ+jKc9/SQtpfBIh7fZRh9atIqdREj9KP6yHcc\nNGlgUqGHEJkTZ2F25xE7uIqQCqo7GfiTsMpKkxHXj7jW8RsJeDn25PU3mbhCnGc7\nEa0fO3zN5AvrOmbPQujst33VQrCccs57fBem+FPGg1FUrZBd5UnrTQLZwzTGI2/b\nW8yyZm6gmsqNjVwGzVdNr9v9R4/v8y8vvha88kAO/N43wgNm2K/eICQI1EhYoZqm\nm6VHAQECgYEA8cChwJoPubVz/UQa9V6t3hO3OB6NoYwaxrnJ4MA9RBvVBLeyMQiw\nrr8g9vjpn4vcUZMTyBUp+JT4YEo0Cd8erF/PnpK5Sg+9Q3MfvJ+um1lQ3PU607+L\nMpYHuRtttEWAPUgDn1BlRYBubkScLo36RzvuklwQj5VO+8O6DFyRXtECgYEAoA8g\n1g/G89IAJ2BObqVkgaVPfrMhiYX7hNM15h044N29OGGk08pbcUZW/dTl+smR/cof\nV5wbJHjsfyq5Dw5lvqYwacJ9jtM+/X5DFxB6WQuZAJwmjC1u68UKCPr8yeU0VO+G\nCB6urQZCWjL8sBhoE7OQMSxbzWmulI+MV+Wi97ECgYBIZ1UKhhmnmPzAIaGhU1Xn\naSg6mov4kimC0ynvMiQnPd6ypwGrRdsEuyF4VlxB+HVnyRDnn88OMC+jRxYGztg0\n8A0ShQcRc11P0i7zIy/8PufFBX005e0enWh6vAhDMX2S3PqYwE9UXX61b78HAmau\n5vgwxXoARst9A8W45hBzwQKBgDEdM0g8QyJiGCX9CVQucC7QGRqZwPrAIDPb07gu\n01s872kznS5X88NIgD0XbRKNc7zans91WWbRrFBBPdP+6P2dZVGumnSPIc8LRW74\nYXKdem+Tesic0GKMbc3fpl4VdP9zGD+5moQBXa7r4lnuw1D4UpCkOe9INIflnH0E\nPAOhAoGBAMjpYVjJiLm7ajhs3tem18OsKXQIFbA+sWSqXvIWmeQJwAvJo+PBlGrw\nRm3kUaKjMHWb0hGPus0PagIvAvHGgYBvgklFOhG729S8pV0FfJLvXwGFlHux2/sw\ntHa2ao+qra7ZPE1lH3L7i3+OWcOI6FfaEvDHazS3SAnEx4ZbXXFD\n-----END RSA PRIVATE KEY-----\nEOF\ncat <<EOF >> /home/tomcat/.ssh/config\nHost *\n    StrictHostKeyChecking no\nEOF\nchmod 600 /home/tomcat/.ssh/webserver.pem\nrsync -e \"ssh -i /home/tomcat/.ssh/webserver.pem -o StrictHostKeyChecking=no\" -avP ec2-user@10.0.0.34:/opt/apache-tomcat-8.5.87/ /opt/apache-tomcat-8.5.87/\nchown -R tomcat:tomcat /opt/apache-tomcat-8.5.87/webapps/\ncd /opt/apache-tomcat-8.5.87/bin\n./startup.sh"
+     }
+    },
+    "LaunchTemplateName": "web_server_template",
+    "VersionDescription": "v1"
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyAsgStack/web_server_template"
+   }
+  },
+  "webserverasg": {
+   "Type": "AWS::AutoScaling::AutoScalingGroup",
+   "Properties": {
+    "MaxSize": "3",
+    "MinSize": "1",
+    "AutoScalingGroupName": "web-server-asg",
+    "AvailabilityZones": [
+     "ap-northeast-1a",
+     "ap-northeast-1c"
+    ],
+    "DesiredCapacity": "2",
+    "LaunchTemplate": {
+     "LaunchTemplateName": "web_server_template",
+     "Version": {
+      "Fn::GetAtt": [
+       "webservertemplate",
+       "LatestVersionNumber"
+      ]
+     }
+    },
+    "NewInstancesProtectedFromScaleIn": false,
+    "TargetGroupARNs": [
+     {
+      "Fn::ImportValue": "MyAlbStack:ExportsOutputFnGetAttMyTgTargetGroupArn95A35D97"
+     }
+    ],
+    "VPCZoneIdentifier": [
+     {
+      "Fn::ImportValue": "MyVpcStack:ExportsOutputFnGetAttpublicsubnet01SubnetId7456A0EB"
+     },
+     {
+      "Fn::ImportValue": "MyVpcStack:ExportsOutputFnGetAttpublicsubnet02SubnetId80FC6486"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyAsgStack/web_server_asg"
+   }
+  },
+  "MyAutoScalingPolicy": {
+   "Type": "AWS::AutoScaling::ScalingPolicy",
+   "Properties": {
+    "AutoScalingGroupName": "web-server-asg",
+    "PolicyType": "TargetTrackingScaling",
+    "TargetTrackingConfiguration": {
+     "DisableScaleIn": false,
+     "PredefinedMetricSpecification": {
+      "PredefinedMetricType": "ASGAverageCPUUtilization"
+     },
+     "TargetValue": 50
+    }
+   },
+   "DependsOn": [
+    "webserverasg"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "MyAsgStack/MyAutoScalingPolicy"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/y2JwQ6CMBAFv4V7WQUT49Vw8OKBAHdTlyorZZfQNoYQ/t0SPL2ZeTmcL3BM9Nel2PappScstdfYq5gei8EcihffdWDsGjOMVnujdPDiUFviNyzxvkavd79NEkYV299LsYTzum6pMk7ChGbjQrglT8KrKmffCR9OkGWQJx9HlE6BPQ0Gqn1/BFoukaUAAAA="
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyAsgStack/CDKMetadata/Default"
+   },
+   "Condition": "CDKMetadataAvailable"
+  }
+ },
+ "Conditions": {
+  "CDKMetadataAvailable": {
+   "Fn::Or": [
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "af-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-northwest-1"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "sa-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-2"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-2"
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}
