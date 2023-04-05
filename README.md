@@ -36,9 +36,12 @@ Step 1: Before deploy stack, we need to create keypair after then attach to ec2 
 
 Step 2:
 
+
 replace keyname value that have just created in cdk.json
 
+
 replace certificate_arn value in cdk.json
+
 
 Step 3: Deploy VPC stack, Security Group Stack, EC2 stack
 ```
