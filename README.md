@@ -10,7 +10,7 @@ I'm using python 3.11
 To manualy create a virtualenv on MacOS and Linux:
 ```
 $ git clone git@github.com:tienguyen-68/aws-cdk.git
-$ cd aws-cdk/cdk-practice/
+$ cd aws-cdk
 $ python3 -m venv .env
 ```
 After the init process completes and the virtualenv is created, you can use the following step to activate your virtualenv.
@@ -45,7 +45,6 @@ replace certificate_arn value in cdk.json
 
 Step 3: Deploy VPC stack, Security Group Stack, EC2 stack
 ```
-cd aws-cdk
 cdk ls
 cdk bootstrap
 cdk diff MyEC2Stack MyVpcStack MySgStack 
