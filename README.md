@@ -29,7 +29,7 @@ Install the latest version of the AWS CDK CLI:
 ```
 $ npm i -g aws-cdk
 ```
-#Build
+# Build
 
 
 Step 1: Before deploy stack, we need to create keypair after then attach to ec2 and import self-cert into ACM to configure ALB https listener.
