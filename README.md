@@ -54,9 +54,9 @@ cdk deploy MyEC2Stack MyVpcStack MySgStack
 ```
 Step 4: try access Public IPv4 DNS with https/http to confirm the webserver work correctly
 ```
-ec2-x-x-x-x.ap-southeast-1.compute.amazonaws.com/helloworld
+ec2-x-x-x-x.<REGION>.compute.amazonaws.com/helloworld
 
-https://ec2-x-x-x-x.ap-southeast-1.compute.amazonaws.com/helloworld
+https://ec2-x-x-x-x.<REGION>.compute.amazonaws.com/helloworld
 ```
 Step 5: Deploy AutoScaling Stack, ALB Stack. 
 2. Deploy AutoScaling Stack, ALB Stack.
@@ -68,7 +68,7 @@ cdk deploy MyAsgStack MyAlbStack
 ```
 Step 6: try access DNS name of ALB with https/http to confirm the webserver work correctly
 ```
-webserver-alb-xxx.ap-southeast-1.elb.amazonaws.com/helloworld
+webserver-alb-xxx.<REGION>.elb.amazonaws.com/helloworld
 ```
 Step 7: Deploy Lambda Function
 ```
