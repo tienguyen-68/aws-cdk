@@ -39,6 +39,7 @@ Step 2:
 
 replace keyname value that have just created in cdk.json
 
+replace private key in bootstrap_script/config_tomcat_asg.sh
 
 replace certificate_arn value in cdk.json
 
